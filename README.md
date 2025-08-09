@@ -76,6 +76,10 @@ https://github.com/HChristopherNaoyuki/artwork-sql.git
 This implementation not only meets all assignment requirements but provides a robust 
 foundation for a real-world artwork management system with enhanced functionality and comprehensive reporting capabilities.
 
+## LICENSE
+
+MIT License
+
 ## DISCLAIMER
 
 UNDER NO CIRCUMSTANCES SHOULD IMAGES OR EMOJIS BE INCLUDED DIRECTLY 
