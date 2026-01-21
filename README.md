@@ -2,16 +2,16 @@
 *SQL Database Implementation*
 
 ## Table of Contents
-- [#project-overview](#project-overview)
-- [#database-architecture](#database-architecture)
-- [#key-features](#key-features)
-- [#sample-data](#sample-data)
-- [#advanced-queries](#advanced-queries)
-- [#setup-and-exploration](#setup-and-exploration)
-- [#github-repository](#github-repository)
-- [#learning-outcomes](#learning-outcomes)
-- [#license](#license)
-- [#disclaimer](#disclaimer)
+- [Project Overview](#project-overview)
+- [Database Architecture](#database-architecture)
+- [Key Features](#key-features)
+- [Sample Data](#sample-data)
+- [Advanced Queries](#advanced-queries)
+- [Setup & Exploration](#setup-and-exploration)
+- [Github Repository](#github-repository)
+- [Learning Outcomes](#learning-outcomes)
+- [License](#license)
+- [Disclaimer](#disclaimer)
 
 ## Project Overview
 
