@@ -114,7 +114,7 @@ Mastery demonstrated across horizons:
 **Nuances**: Balances theory (ACID compliance) with practice (scalable for galleries).
 
 ## License
-MIT License—freedom to inspire.
+MIT License: Freedom to inspire.
 
 ## Disclaimer
 UNDER NO CIRCUMSTANCES SHOULD IMAGES OR EMOJIS BE INCLUDED DIRECTLY IN THE README FILE. 
