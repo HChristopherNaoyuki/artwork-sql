@@ -1,132 +1,179 @@
 # Artwork Management System  
-*SQL Database Implementation*
 
 ## Table of Contents
+
 - [Project Overview](#project-overview)
 - [Database Architecture](#database-architecture)
 - [Key Features](#key-features)
 - [Sample Data](#sample-data)
 - [Advanced Queries](#advanced-queries)
-- [Setup & Exploration](#setup-and-exploration)
-- [Github Repository](#github-repository)
+- [Setup and Exploration](#setup-and-exploration)
+- [GitHub Repository](#github-repository)
 - [Learning Outcomes](#learning-outcomes)
 - [License](#license)
 - [Disclaimer](#disclaimer)
 
 ## Project Overview
 
-Imagine a seamless digital gallery where every masterpiece tells its story—with precision, 
-elegance, and effortless insight. The **Artwork Management System** is a meticulously crafted 
-SQL database solution, powered by Transact-SQL (TSQL) for Microsoft SQL Server or Azure SQL. 
-Designed to mirror real-world art curation, it elegantly tracks artists, their iconic works, 
-genres, and exhibitions, weaving complex relationships into a tapestry of data integrity and 
-query sophistication.
-
-This system doesn't just store information; it empowers curators, researchers, and enthusiasts 
-with robust tools for discovery—far exceeding assignment requirements while laying the foundation 
-for a production-ready art management platform.
+The Artwork Management System is a professional SQL database solution built
+with Transact-SQL for Microsoft SQL Server or Azure SQL. It manages artists,
+artworks, genres, and exhibitions with precision and data integrity. The
+system supports real-world art curation workflows by linking masterpieces to
+their creators and show events. It serves curators, researchers, and gallery
+managers who need reliable access to collection insights. This implementation
+goes beyond basic assignments to deliver a production-ready foundation for
+digital art management platforms.
 
 ## Database Architecture
-A symphony of five interconnected tables, each optimized for performance, validation, and relational harmony:
 
-1. **[Artist](#artist-table)**  
-   Captures the essence of creators.  
-   *Required*: Name, Surname.  
-   *Elevated details*: Birth/Death years, Nationality.  
-   Primary key ensures timeless uniqueness.
+The architecture consists of five normalized tables that work together to
+maintain relational harmony and enforce business rules. Each table serves a
+specific purpose within the overall schema.
 
-2. **[Genre](#genre-table)**  
-   Classifies styles with crystalline clarity.  
-   *Required*: Description.
+1. Artist Table: Stores creator details including name, surname, birth year,
+death year, and nationality. The primary key ensures unique identification.
 
-3. **[Artwork](#artwork-table)**  
-   The heart of the collection.  
-   *Required*: Title.  
-   *Relationships*: Belongs to one Artist and one Genre.  
-   *Status mastery*: Seamlessly tracks Displayed, Stored, On Loan, or In Conservation via CHECK constraints.
+2. Genre Table: Classifies artistic styles using a description field.
 
-4. **[Exhibition](#exhibition-table)**  
-   Orchestrates events that bring art to life.  
-   *Required*: Description.
+3. Artwork Table: Contains the core collection data with title, artist
+reference, genre reference, creation year, medium, status, and insurance
+value. Status is validated using a CHECK constraint for values such as
+Displayed, Stored, On Loan, or In Conservation.
 
-5. **[Entry](#entry-table)**  
-   The bridge of brilliance—a junction table linking Artworks to Exhibitions.  
-   Captures display nuances and insurance values, enabling many-to-many elegance.
+4. Exhibition Table: Manages event information including description, start
+date, end date, and location.
 
-Foreign keys enforce unbreakable referential integrity. Data types are precisely chosen—dates 
-for timelines, decimals for values, enums-like constraints for status. Unique constraints guard 
-against duplicates, while NOT NULLs uphold completeness.
+5. Entry Table: Serves as a junction linking artworks to exhibitions. It
+captures display details and insurance values for each showing.
 
-**Nuances and Edge Cases**:  
-- Handles deceased artists (NULL death_year).  
-- Supports loaned artworks with temporal tracking.  
-- Insurance values scale for high-value pieces (DECIMAL precision).  
-- Prevents orphan entries via CASCADE options (customizable per deployment).
+Foreign keys enforce referential integrity across all relationships. The
+design handles edge cases such as deceased artists, loaned artworks, and
+high-value insurance figures.
 
 ## Key Features
-- **Impeccable Integrity**: Foreign keys, CHECKs, and UNIQUEs create a fortress of reliable data.  
-- **Scalable Design**: Normalized to 3NF, poised for millions of records without bloat.  
-- **Business Rule Enforcement**: Status validation prevents invalid states; e.g., no "On Loan" without partner reference.  
-- **Query-Ready**: Indexes on join columns for lightning-fast analytics.
 
-From multiple angles: This isn't mere compliance—it's extensible. Add user roles? Audit logs? A VIEW for public catalogs? All seamless.
+The system provides multiple layers of data protection and performance
+optimization. Foreign key constraints prevent orphaned records and maintain
+consistency across all tables. CHECK constraints validate status values
+and date ranges at the database level. Unique constraints eliminate
+duplicate entries while NOT NULL requirements ensure completeness of
+critical fields.
+
+Scalability is achieved through normalization to the third normal form.
+Indexes on join columns accelerate query execution for large datasets.
+The design supports future extensions such as user role management,
+audit logging, and public catalog views without requiring structural
+overhauls.
 
 ## Sample Data
-Curated with authenticity, surpassing minima for immersive exploration:  
-- **10 Genres** (min: 3) – From Impressionism to Abstract Expressionism.  
-- **8 Artists** (min: 5) – Legends like Picasso, Frida Kahlo, with diverse nationalities.  
-- **20 Artworks** (min: 20) – Titles, mediums, years, statuses richly varied.  
-- **15 Exhibitions** (min: 15) – Global events from MoMA retrospectives to pop-ups.  
-- **25 Entries** (min: 25, with multiples) – Artworks shine in multiple shows, insurance tuned realistically.
 
-**Implications**: Realistic volumes test joins (e.g., 20x15 potential pairs, pruned to 25 for focus). Edge: Zero-loan artworks; high-insurance outliers.
+The database includes carefully curated sample data for meaningful
+exploration and testing. The dataset contains ten distinct genres,
+covering periods from Impressionism to Abstract Expressionism. Eight
+artists represent diverse nationalities and historical periods,
+including Picasso and Frida Kahlo.
+
+Twenty artworks provide a rich mix of titles, mediums, creation years,
+and status values. Fifteen exhibitions simulate global events ranging
+from major museum retrospectives to smaller gallery pop-ups. Twenty-
+five entry records link artworks to multiple exhibitions with realistic
+insurance valuations.
+
+This volume of data supports meaningful joins and aggregate queries
+while maintaining fast execution for learning purposes. Edge cases
+such as artworks that never go on loan and outliers with high insurance
+values are included for comprehensive testing.
 
 ## Advanced Queries
-Unlock insights with artistry:  
-- **Multi-Table Symphony**: JOIN Artist, Artwork, Genre, Exhibition, Entry—aggregate loans per artist (HAVING >1).  
-- **Conditional Brilliance**: STRING_AGG for artist catalogs; CASE for status badges.  
-- **Filtering Mastery**: SORT by value DESC, filter nationalities, GROUP BY era.  
-- **CRUD Foundations**: INSERT/UPDATE with triggers; SELECT with pagination hints.  
 
-**Examples in Script**: Analytical reports (top genres by exhibitions), enforcement demos (failed inserts rejected).  
-**Edge Cases**: Empty exhibitions? Handled gracefully. Aggregates on sparse data? COALESCE ensures polish.
+The system supports sophisticated analytical queries that mirror real-
+world business intelligence needs. Multi-table joins combine artist,
+artwork, genre, exhibition, and entry data to produce comprehensive
+reports. Conditional aggregation using functions such as STRING_AGG
+creates comma-separated catalogs of artwork per artist.
 
-**Broader Context**: These mirror BI tools—pivot for dashboards, subqueries for "artists with loaned works only."
+The CASE statement enables status badges and custom categorization.
+Filtering capabilities include sorting by insurance value, filtering by
+nationality, and grouping artistic works by historical era. The script
+also demonstrates CRUD operations with INSERT, UPDATE, and SELECT
+statements that include pagination hints for large result sets.
+
+Analytical reports in the script include identifying top genres by
+exhibition count and listing artists with multiple loaned works. Empty
+exhibitions are handled gracefully, and COALESCE ensures polished
+output for sparse data.
 
 ## Setup and Exploration
-Effortless as a single click:  
-1. Clone/open the repo.  
-2. Execute the TSQL script: Creates DB, tables, populates data.  
-3. Run demo queries: Witness CRUD, reports, violations caught live.  
 
-**Considerations**: SQL Server Management Studio ideal; Azure for cloud. Backup before experiments. No external deps—pure TSQL.
+Setting up the database requires minimal steps and no external
+dependencies beyond Microsoft SQL Server or Azure SQL. Begin by
+cloning the repository or downloading the script file. Open the TSQL
+script in SQL Server Management Studio or your preferred editor.
+Execute the entire script to create the database, all tables,
+relationships, and sample data in one operation.
+
+After successful execution, run the demo queries section to see CRUD
+operations in action and observe constraint violations being caught
+by the system. For cloud deployment, Azure SQL Database supports the
+same script without modifications. Always back up your database
+before running experimental modifications.
 
 ## GitHub Repository
-Discover the full masterpiece:  
-[https://github.com/HChristopherNaoyuki/artwork-sql.git](https://github.com/HChristopherNaoyuki/artwork-sql.git)
+
+Access the complete project repository for the latest version,
+documentation, and support:
+
+```
+https://github.com/HChristopherNaoyuki/artwork-sql.git
+```
+
+Use the following command to clone the repository to your local
+machine:
+
+```
+git clone https://github.com/HChristopherNaoyuki/artwork-sql.git
+```
 
 ## Learning Outcomes
-Mastery demonstrated across horizons:  
-- **Design Excellence**: Normalization, relationships, constraints.  
-- **SQL Artistry**: DDL/DML/DQL proficiency; complex JOINs, aggregates, HAVING.  
-- **Integrity First**: Real-world enforcement prevents chaos.  
-- **Business Impact**: Reports inform decisions—e.g., "Optimize loans by genre."  
-**Nuances**: Balances theory (ACID compliance) with practice (scalable for galleries).
+
+This project demonstrates mastery of multiple database design and
+SQL proficiency areas. Design excellence is shown through proper
+normalization, relationship mapping, and constraint implementation.
+SQL artistry appears in DDL, DML, and DQL statements featuring
+complex joins, aggregate functions, and the HAVING clause.
+
+Integrity enforcement is demonstrated through real-world prevention
+of invalid data states. Business impact is visible in reports that
+support operational decisions such as optimizing loan strategies by
+genre. The solution balances theoretical ACID compliance with
+practical scalability for gallery environments.
 
 ## License
-MIT License: Freedom to inspire.
+
+MIT License. You are free to use, modify, and distribute this
+software for any purpose, subject to the terms of the MIT License.
 
 ## Disclaimer
-UNDER NO CIRCUMSTANCES SHOULD IMAGES OR EMOJIS BE INCLUDED DIRECTLY IN THE README FILE. 
-ALL VISUAL MEDIA, INCLUDING SCREENSHOTS AND IMAGES OF THE APPLICATION, MUST BE STORED IN 
-A DEDICATED FOLDER WITHIN THE PROJECT DIRECTORY. THIS FOLDER SHOULD BE CLEARLY STRUCTURED 
-AND NAMED ACCORDINGLY TO INDICATE THAT IT CONTAINS ALL VISUAL CONTENT RELATED TO THE APPLICATION 
-(FOR EXAMPLE, A FOLDER NAMED `images`, `screenshots`, OR `media`).
 
-I AM NOT LIABLE OR RESPONSIBLE FOR ANY MALFUNCTIONS, DEFECTS, OR ISSUES THAT MAY OCCUR AS A 
-RESULT OF COPYING, MODIFYING, OR USING THIS SOFTWARE. IF YOU ENCOUNTER ANY PROBLEMS OR ERRORS, 
-PLEASE DO NOT ATTEMPT TO FIX THEM SILENTLY OR OUTSIDE THE PROJECT. INSTEAD, KINDLY SUBMIT A 
-PULL REQUEST OR OPEN AN ISSUE ON THE CORRESPONDING GITHUB REPOSITORY, SO THAT IT CAN BE ADDRESSED 
-APPROPRIATELY BY THE MAINTAINERS OR CONTRIBUTORS.
+Under no circumstances should images or emojis be included directly
+in the readme file. All visual media, including screenshots and images
+of the application, must be stored in a dedicated folder within the
+project directory. This folder should be clearly structured and named
+accordingly to indicate that it contains all visual content related
+to the application (for example, a folder named images, screenshots,
+or media).
+
+I am not liable or responsible for any malfunctions, defects, or
+issues that may occur as a result of copying, modifying, or using
+this software. If you encounter any problems or errors, please do
+not attempt to fix them silently or outside the project. Instead,
+kindly submit a pull request or open an issue on the corresponding
+GitHub repository, so that it can be addressed appropriately by the
+maintainers or contributors.
+
+
+---
+
+End of Document
 
 ---
